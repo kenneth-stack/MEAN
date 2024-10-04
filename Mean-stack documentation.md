@@ -32,8 +32,6 @@ For this project, we are going to implement a simple Book Register web form usin
 # Step 0: Prerequisites
 
 __1.__ EC2 Instance of t2.micro family type and Ubuntu 24.04 LTS (HVM) was lunched in the region of my choosing using the AWS console.
-![ec2_launch](/img/EC2_Launch.png)
-![ec2_launch_details](/img/EC2_details.png)
 
 __2.__ The security group was configured with the following inbound rules:
 
@@ -50,7 +48,6 @@ ssh -i MeanStack.pem ubuntu@52.87.177.181
 ```
 
 ```
-![ssh_connected](/img/ssh_connected.png)
 ```
 ## Step 1 - BackEnd Configuration
 
@@ -58,26 +55,22 @@ __1.__ Install ubuntu
 ```
 sudo apt update
 ```
-![ubuntu_update](/img/NodeJs_install.png)
 
 __2.__ Upgrade ubuntu
 ```
 sudo apt upgrade
 ```
-![buntu_upgrade](/img/ubuntu_upgrade.png)
 
 
 __3.__ Locate the Node.js software from [Ubuntu repositories](https://github.com/nodesource/distributions#deb).
 ```
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 ```
-![buntu_upgrade](/img/locade_nodejs.png)
 
 __4.__ Install Node.js on the server
 ```
  sudo apt-get install nodejs -y
 ```
-![nodejs_installation](/img/node_installation.png)
 
 _The above command installs both nodejs and npm(node modules)_
 
@@ -86,7 +79,6 @@ __5.__ Verify the node installation with the command
 ```
 node -v
 ```
-![nodejs_installation](/img/nodejs_verify.png)
 
 ## Step 2. Install MongoDB
 
@@ -94,89 +86,83 @@ __1.__ Install MongoDB
 
 - Import the public key used by the package management system
 From a terminal, install gnupg and curl if they are not already available:
-```bash
+```
 wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
 ```
-![import_key](/img/import_KeY.png)
 
-```bash
+```
 sudo apt-get install gnupg curl
 ```
-![](/img/install_gnupg.png)
 
 - Create a List-File
 
-```bash
+```
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
 ```
-![img](/img/create%20a%20list_file.png)
 
 - Once completed, ensure to reload your system to activate the changes and add the MongoDB repository. Please note that this process may require some time to complete.
   
-  ```bash
+  ```
   sudo apt-get update
   ```
-![update_img](/img/sudo_update.png)
 
 - Install the packages needed for the MongoDB version you want to run. In most cases, it is a good idea to select the current version of MongoDB. 
   
-```bash
+```
 sudo apt-get install -y mongodb-org
   ```
   
-![](/img/install_mongo_version.png)
+![](/images/Mongodb.jpg)
 
 - Want to install a specific version of MongoDB? 
- ```bash
+ ```
   sudo apt-get update
   ```
 - Reload local package database
 Issue the following command to reload the local package database:
-```bash
+```
 sudo apt-get install -y mongodb-org=6.0.1 mongodb-org-database=6.0.1 mongodb-org-server=6.0.1 mongodb-mongosh=6.0.1 mongodb-org-mongos=6.0.1 mongodb-org-tools=6.0.1
 ```
 - Verify if the database is sucessful
 
-```bash
+```
 sudo systemctl start mongod
 sudo systemctl status mongod
 ```
-![img](/img/mongod_status_start.png)
 
 __2.__  Install node package
 
-```bash 
+```
 sudo apt install -y npm 
 ```
-![img](/img/install_npm.png)
 
 __3.__ Install body-parser package
 
-```bash 
+``` 
 sudo npm install body-parser
 ```
-![img](/img/body_parser_package.png)
+![](/images/body-parser.jpg)
 
 __4.__ Create a folder named `Books`
 
-```bash 
+```
 $ mkdir Books && cd Books
 ```
 __5.__  In the `Books` directory, initialize npm project
 
-```bash
+```
 npm init
 ```
-![img](/img/book_init.png)
+![](/images/npm%20init.jpg)
 
 __6.__ Add a file to it named server.js
 
-```bash
+```
 vi server.js
 ```
 Copy and paste
 
-```bash
+```
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -191,15 +177,14 @@ app.listen(app.get('port'), function(){
 ## Step 3. Install Express and set up routes to the server
 
 __1.__ Install Express & Mongoose
-```bash
+```
 sudo npm install express 
 sudo apt install mongoose
 ```
-![](/img/express_mongoose_install.png)
-
+![](/images/express-mongoose.jpg)
 __2.__ In `Books` directory create a folder named *apps*
 
-```bash
+```
 $ mkdir apps && cd apps
 ```
 __3.__ Create a `routes.js` file inside apps directory
@@ -209,7 +194,7 @@ vi routes.js
 
 then paste this code inside
 
-```bash 
+``` 
     var Book = require('./models/book');
 module.exports = function(app){
     app.get('/book', function(req,res){
@@ -248,22 +233,21 @@ module.exports = function(app){
     });
 };
 ```
-
-![](/img/routes.js.png)
+![](/images/route.js.jpg)
 
 __4.__ In the  `models` folder, createa folder named  `models` 
 
-```bash
+```
 mkdir models && cd models
 ```
 
 __5.__  Create a `book.js` file inside `models` directory 
    
-```bash
+```
 vi book.js
 ```
 Copy this code inside
-```bash
+```
 var mongoose = require('mongoose');
 var dbHost = 'mongodb://localhost:27017/test';
 mongoose.connect(dbHost);
@@ -279,13 +263,13 @@ var Book = mongoose.model('Book', bookSchema);
 module.exports = mongoose.model('Book', bookSchema);
 
 ```
-![](/img/book.js.png)
+![](/images/book.js.jpg)
 
 ## Step 3 - Access the routes with AngularJs
 
 __1.__  Change the directory back to `books`
 
-```bash
+```
 cd ../.. 
 ```
 __2.__  Create a folder named `public` 
@@ -294,12 +278,12 @@ mkdir public && cd public
 ```
 __3.__ Add a file named  `script.js` 
 
-```bash
+```
 vi script.js
 ```
 Copy this code and paste inside
 
-```bash
+```
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $http) {
     // Fetch books from the server
@@ -350,15 +334,15 @@ app.controller('myCtrl', function($scope, $http) {
     };
 });
 ```
-![img](/img/script.js.png)
+![](/images/server.js.jpg)
 
 __3.__ In the `public` folder, create a file named   `index.html` 
 
-```bash
+```
 vi index.html
 ```
 then copy and past the code inside
-```bash
+```
 <!doctype html>
 <html ng-app="myApp" ng-controller="myCtrl">
 <head>
@@ -410,28 +394,25 @@ then copy and past the code inside
     </body>
 </html>
 ```
-![index](/img/index.html.png)
+![](/images/index.jpg)
 
 __4.__  Change the directory back to `Books`
 
-```bash
+```
 cd ..
 ```
 __5.__ Start the server by running this command
 
-```bash
+```
 node server.js
 ```
-![](/img/node%20server..png)
 
 __6.__ Access the Book Register web application from the internet with a browser using:
 
-```bash
+```
 http://server-public-ip:3000
 ```
-![isbn_webpage](/img/isbn_web_page.png)
-![isbn_webpage](/img/isbn_list.png)
-
+![](/images/book-register.jpg)
 ## Conclusion
 
 Congratulations!
